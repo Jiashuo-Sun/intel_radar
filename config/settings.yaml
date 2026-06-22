@@ -33,8 +33,20 @@ processor:
 # 启用前设置环境变量：export ANTHROPIC_API_KEY="sk-ant-..."
 ai:
   enabled: true
-  provider: "anthropic"
-  model: "claude-haiku-4-5-20251001"
-  api_key_env: "ANTHROPIC_API_KEY"
-  summarize_threshold: 3
-  max_items_per_run: 15
+
+  # lm studion 本地
+  provider: "lmstudio"
+  base_url: "http://localhost:1234/v1"
+  model: "google/gemma-3-4b"     # ← 填 LM Studio 界面显示的模型 ID
+  timeout_seconds: 60
+
+  # anthropic 接口
+  # provider: "anthropic"
+  # model: "claude-haiku-4-5-20251001"
+  # api_key_env: "ANTHROPIC_API_KEY"
+  # summarize_threshold: 3
+  # max_items_per_run: 15
+
+
+
+  
