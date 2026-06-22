@@ -29,12 +29,31 @@ processor:
   min_score_for_report: 1
   high_priority_threshold: 4
 
-# AI 摘要（可选）
-# 启用前设置环境变量：export ANTHROPIC_API_KEY="sk-ant-..."
+# ============================================================
+# AI 摘要配置
+#
+# provider 字段控制使用哪个后端：
+#   "anthropic" — Anthropic 云端 API（需要 ANTHROPIC_API_KEY）
+#   "lmstudio"  — LM Studio 本地推理（OpenAI 兼容，无需密钥）
+#
+# 两套配置可以同时保留，切换时只需修改 provider 字段。
+# ============================================================
 ai:
   enabled: true
-  provider: "anthropic"
-  model: "claude-haiku-4-5-20251001"
-  api_key_env: "ANTHROPIC_API_KEY"
-  summarize_threshold: 3
-  max_items_per_run: 15
+  provider: "anthropic"        # "anthropic" | "lmstudio"
+  summarize_threshold: 3       # 分数 >= 此值才调用 AI 摘要
+  max_items_per_run: 15        # 每次运行最多摘要多少条（控制成本/耗时）
+
+  # Anthropic 云端 API
+  # 启用前设置环境变量：export ANTHROPIC_API_KEY="sk-ant-..."
+  anthropic:
+    model: "claude-haiku-4-5-20251001"
+    api_key_env: "ANTHROPIC_API_KEY"
+
+  # LM Studio 本地推理（OpenAI-compatible API）
+  # 启动 LM Studio，加载模型，开启本地服务器后生效
+  # model 填写 LM Studio 界面中已加载模型的名称
+  lmstudio:
+    base_url: "http://localhost:1234/v1"
+    model: "local-model"
+    timeout_seconds: 60

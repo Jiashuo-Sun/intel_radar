@@ -4,6 +4,14 @@
 
 ---
 
+## 语言规范 / Language Policy
+
+**所有代码注释、commit message、文档更新、PR 描述，仅允许使用英文或简体中文，不得使用其他语言。**
+
+All code comments, commit messages, documentation updates, and PR descriptions must be written in **English or Simplified Chinese only**. No other languages are permitted.
+
+---
+
 ## 一、产品定位
 
 **Intel Radar** 是一个本地运行的行业情报系统，服务于 Drawing AI / 延峰项目的商务与技术团队。
@@ -182,12 +190,21 @@ SCORE_RULES = {
 # 分数 0    → 归档，不出现在日报正文
 ```
 
-**AI 摘要（可选，需 API Key）：**
+**AI 摘要（可选）：**
 
-调用 Claude claude-sonnet-4-6，对每条高优先级条目生成：
-1. 一句话核心内容（≤30字）
-2. 对 Drawing AI / 延峰项目的影响判断
-3. 建议行动（如有）
+支持两种 AI 后端，通过 `settings.yaml` 中 `ai.provider` 字段切换：
+
+| provider | 后端 | 条件 |
+|----------|------|------|
+| `anthropic` | Anthropic 云端 API | 需设置 `ANTHROPIC_API_KEY` 环境变量 |
+| `lmstudio` | LM Studio 本地推理 | 需本地启动 LM Studio 并开启服务器 |
+
+对每条高分条目生成：
+1. 一句话核心内容（≤25字）
+2. 对 Drawing AI / 延峰项目的影响判断（威胁/机会/中性）
+3. 建议行动（≤20字）
+
+输出格式为 JSON：`{"summary": "...", "impact": "...", "action": "..."}`
 
 ### 4.3 输出层（`src/reporter.py`）
 
@@ -384,13 +401,23 @@ processor:
   high_priority_threshold: 4
 
 # AI 摘要（可选）
+# provider 字段控制使用哪个后端："anthropic" | "lmstudio"
 ai:
   enabled: true
-  provider: "anthropic"
-  model: "claude-haiku-4-5-20251001"
-  api_key_env: "ANTHROPIC_API_KEY"   # 从环境变量读，不写明文
-  summarize_threshold: 3    # 分数>=3才调AI摘要（节省费用）
-  max_items_per_run: 20     # 每次最多摘要多少条
+  provider: "anthropic"        # 切换为 "lmstudio" 即可使用本地模型
+  summarize_threshold: 3       # 分数 >= 此值才调用 AI 摘要
+  max_items_per_run: 20        # 每次最多摘要多少条（控制成本/耗时）
+
+  # Anthropic 云端 API（provider: "anthropic" 时生效）
+  anthropic:
+    model: "claude-haiku-4-5-20251001"
+    api_key_env: "ANTHROPIC_API_KEY"   # 从环境变量读，不写明文
+
+  # LM Studio 本地推理（provider: "lmstudio" 时生效）
+  lmstudio:
+    base_url: "http://localhost:1234/v1"
+    model: "local-model"               # 填写 LM Studio 中已加载模型的名称
+    timeout_seconds: 60
 ```
 
 ---
@@ -524,9 +551,12 @@ cat output/2025-01-15.md      # 阅读今日日报
 
 ## 十、开发约定
 
+- **语言规范**：所有代码注释、commit message、文档，仅使用英文或简体中文
 - **所有秘钥从环境变量读取**，不写入任何配置文件
 - **数据全部本地存储**，不上传任何内容到外部服务（除 AI 摘要调用外）
 - **新增数据源**：在 `watch.yaml` 添加配置，在 `fetcher.py` 中实现对应 Fetcher 类
 - **修改日报格式**：只改 `reporter.py`，不影响其他模块
 - **AI 摘要为可选**：`--no-ai` 参数或不设置 API Key 时自动降级跳过
+- **AI 提供商切换**：只需修改 `settings.yaml` 中的 `ai.provider` 字段，无需改代码
+- **新增 AI 提供商**：在 `processor.py` 中添加 `_call_xxx()` 函数，并在 `ai_summarize_batch()` 中注册
 - **幂等性**：同一天重复运行，只追加新条目，不重复写日报

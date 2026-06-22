@@ -1,12 +1,18 @@
 """
 processor.py — 去重、打分、AI摘要
+
+Supports two AI providers:
+  - anthropic: Anthropic cloud API (requires ANTHROPIC_API_KEY)
+  - lmstudio:  LM Studio local inference (OpenAI-compatible, no key needed)
+
+Provider is selected via settings.yaml ai.provider field.
 """
 import re
 import os
 import json
 import logging
 import urllib.request
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import List, Optional
 
 from .fetcher import RawItem
@@ -48,16 +54,12 @@ class ProcessedItem:
 
 # ── 打分规则 ──────────────────────────────────────────────────────
 SCORE_RULES = [
-    # (正则模式, 分值, 说明)
-    # 高价值事件
     (r"融资|募资|完成.*轮|Series [A-D]|funding|raises?\b", 3, "融资信号"),
     (r"中标|签约|合同|采购|awarded|contract", 3, "中标信号"),
     (r"收购|并购|acqui[rs]|merger", 3, "并购信号"),
     (r"发布|上线|launch|release|released|推出", 2, "产品发布"),
     (r"合作|partnership|partner|战略合作", 1, "合作信号"),
     (r"裁员|倒闭|shutdown|broke", -1, "负面信号"),
-
-    # 精品监控公司（精确命中加分）
     (r"Werk24|werk24", 3, "竞品Werk24"),
     (r"Energent|energent", 3, "竞品Energent"),
     (r"CoLab|colab software", 2, "竞品CoLab"),
@@ -67,8 +69,6 @@ SCORE_RULES = [
     (r"DISCUS", 2, "竞品DISCUS"),
     (r"志丞", 2, "竞品志丞"),
     (r"延峰|Yanfeng|YF\b", 3, "延峰"),
-
-    # 行业关键词（基础分）
     (r"工业图纸|engineering drawing|technical drawing", 1, "核心场景"),
     (r"GD&T|PPAP|APQP|IATF", 1, "汽车质量标准"),
     (r"图纸识别|drawing recognition|drawing OCR", 2, "核心场景精确"),
@@ -82,7 +82,6 @@ def calculate_score(item: RawItem) -> int:
     for pattern, delta, _ in SCORE_RULES:
         if re.search(pattern, text, re.IGNORECASE):
             score += delta
-    # premium 源基础分 +1
     if item.topic_group == "premium":
         score += 1
     return max(0, score)
@@ -102,32 +101,97 @@ SYSTEM_PROMPT = """你是一个服务于工业AI产品团队的情报分析助�
 {"summary": "...", "impact": "...", "action": "..."}"""
 
 
-def ai_summarize_batch(items: List[ProcessedItem], api_key: str, model: str) -> None:
-    """批量调用 Claude API 生成摘要，直接修改 items（in-place）"""
+def _parse_ai_json(text: str) -> dict:
+    """Extract JSON from AI response, handling markdown code fences."""
+    text = text.strip()
+    if text.startswith("```"):
+        inner, in_block = [], False
+        for line in text.splitlines():
+            if line.startswith("```"):
+                in_block = not in_block
+                continue
+            if in_block:
+                inner.append(line)
+        text = "\n".join(inner).strip()
+    return json.loads(text)
+
+
+def _call_anthropic(text: str, model: str, api_key: str, timeout: int = 20) -> dict:
+    """Call Anthropic Messages API, return parsed summary dict."""
+    payload = json.dumps({
+        "model": model,
+        "max_tokens": 256,
+        "system": SYSTEM_PROMPT,
+        "messages": [{"role": "user", "content": text}],
+    }).encode()
+    req = urllib.request.Request(
+        "https://api.anthropic.com/v1/messages",
+        data=payload,
+        headers={
+            "x-api-key": api_key,
+            "anthropic-version": "2023-06-01",
+            "content-type": "application/json",
+        },
+    )
+    with urllib.request.urlopen(req, timeout=timeout) as resp:
+        data = json.loads(resp.read())
+        return _parse_ai_json(data["content"][0]["text"])
+
+
+def _call_lmstudio(text: str, model: str, base_url: str, timeout: int = 60) -> dict:
+    """Call LM Studio OpenAI-compatible API, return parsed summary dict."""
+    payload = json.dumps({
+        "model": model,
+        "max_tokens": 256,
+        "temperature": 0.3,
+        "messages": [
+            {"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "user", "content": text},
+        ],
+    }).encode()
+    url = base_url.rstrip("/") + "/chat/completions"
+    req = urllib.request.Request(
+        url,
+        data=payload,
+        headers={
+            "Authorization": "Bearer lm-studio",
+            "content-type": "application/json",
+        },
+    )
+    with urllib.request.urlopen(req, timeout=timeout) as resp:
+        data = json.loads(resp.read())
+        return _parse_ai_json(data["choices"][0]["message"]["content"])
+
+
+def ai_summarize_batch(items: List[ProcessedItem], ai_cfg: dict) -> None:
+    """Batch AI summarization with provider routing. Modifies items in-place."""
+    provider = ai_cfg.get("provider", "anthropic")
+
+    if provider == "lmstudio":
+        lm_cfg = ai_cfg.get("lmstudio", {})
+        base_url = lm_cfg.get("base_url", "http://localhost:1234/v1")
+        model = lm_cfg.get("model", "local-model")
+        timeout = lm_cfg.get("timeout_seconds", 60)
+        log.info(f"AI provider: LM Studio  base_url={base_url}  model={model}")
+        call_fn = lambda text: _call_lmstudio(text, model, base_url, timeout)
+    else:
+        # Anthropic — support both nested (ai.anthropic.*) and legacy flat keys
+        ant_cfg = ai_cfg.get("anthropic", {})
+        api_key_env = ant_cfg.get("api_key_env") or ai_cfg.get("api_key_env", "ANTHROPIC_API_KEY")
+        model = ant_cfg.get("model") or ai_cfg.get("model", "claude-haiku-4-5-20251001")
+        api_key = os.environ.get(api_key_env, "")
+        if not api_key:
+            log.warning(f"Env var {api_key_env!r} not set — skipping AI summary")
+            return
+        log.info(f"AI provider: Anthropic  model={model}")
+        call_fn = lambda text: _call_anthropic(text, model, api_key)
+
     for item in items:
         text = f"标题：{item.title}\n摘要：{item.summary[:300]}\n来源：{item.source_name}"
-        payload = json.dumps({
-            "model": model,
-            "max_tokens": 256,
-            "system": SYSTEM_PROMPT,
-            "messages": [{"role": "user", "content": text}]
-        }).encode()
-        req = urllib.request.Request(
-            "https://api.anthropic.com/v1/messages",
-            data=payload,
-            headers={
-                "x-api-key": api_key,
-                "anthropic-version": "2023-06-01",
-                "content-type": "application/json",
-            }
-        )
         try:
-            with urllib.request.urlopen(req, timeout=20) as resp:
-                data = json.loads(resp.read())
-                raw_text = data["content"][0]["text"].strip()
-                parsed = json.loads(raw_text)
-                item.summary_ai = parsed.get("summary", "")
-                item.impact = parsed.get("impact", "") + "｜" + parsed.get("action", "")
+            parsed = call_fn(text)
+            item.summary_ai = parsed.get("summary", "")
+            item.impact = parsed.get("impact", "") + "｜" + parsed.get("action", "")
         except Exception as e:
             log.warning(f"AI summarize failed for '{item.title[:30]}': {e}")
 
@@ -155,7 +219,6 @@ class Processor:
                 continue
             score = calculate_score(item)
             if score < self.min_score:
-                # 存入DB但不放入日报
                 self.db.save_item(item.url, item.title, item.source_name,
                                   item.topic_group, score, item.published_at)
                 continue
@@ -166,21 +229,16 @@ class Processor:
 
         log.info(f"Processed: {len(results)} kept, {deduped} deduped")
 
-        # AI 摘要
-        if use_ai and self.ai_cfg.get("enabled") and self.ai_cfg.get("api_key_env"):
-            api_key = os.environ.get(self.ai_cfg["api_key_env"], "")
-            if api_key:
-                to_summarize = [
-                    p for p in results if p.score >= self.ai_threshold
-                ][:self.ai_max]
-                if to_summarize:
-                    log.info(f"AI summarizing {len(to_summarize)} items...")
-                    ai_summarize_batch(to_summarize, api_key, self.ai_cfg.get("model", "claude-haiku-4-5-20251001"))
-                    for p in to_summarize:
-                        self.db.update_ai(p.url, p.summary_ai, p.impact)
+        if use_ai and self.ai_cfg.get("enabled"):
+            to_summarize = [p for p in results if p.score >= self.ai_threshold][: self.ai_max]
+            if to_summarize:
+                log.info(f"AI summarizing {len(to_summarize)} items "
+                         f"(provider={self.ai_cfg.get('provider', 'anthropic')})...")
+                ai_summarize_batch(to_summarize, self.ai_cfg)
+                for p in to_summarize:
+                    self.db.update_ai(p.url, p.summary_ai, p.impact)
             else:
-                log.info("ANTHROPIC_API_KEY not set — skipping AI summary")
+                log.info("No items meet AI summarization threshold")
 
-        # 按分数降序排列
         results.sort(key=lambda x: x.score, reverse=True)
         return results
