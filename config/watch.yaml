@@ -4,64 +4,64 @@
 # ============================================================
 
 # ── 精品监控（深度跟踪指定公司）────────────────────────────────
-premium:
-  - name: "延峰集团"
-    aliases: ["Yanfeng", "YF", "延锋"]
-    sources:
-      - type: rss
-        url: "https://news.google.com/rss/search?q=延峰+数字化&hl=zh-CN&gl=CN&ceid=CN:zh-Hans"
-      - type: rss
-        url: "https://news.google.com/rss/search?q=Yanfeng+automotive+AI&hl=en-US&gl=US&ceid=US:en"
-    priority: critical
+# premium:
+#   - name: "延峰集团"
+#     aliases: ["Yanfeng", "YF", "延锋"]
+#     sources:
+#       - type: rss
+#         url: "https://news.google.com/rss/search?q=延峰+数字化&hl=zh-CN&gl=CN&ceid=CN:zh-Hans"
+#       - type: rss
+#         url: "https://news.google.com/rss/search?q=Yanfeng+automotive+AI&hl=en-US&gl=US&ceid=US:en"
+#     priority: critical
 
-  - name: "Werk24"
-    aliases: ["werk24.ai"]
-    sources:
-      - type: rss
-        url: "https://news.google.com/rss/search?q=Werk24&hl=en-US&gl=US&ceid=US:en"
-    priority: critical
+#   - name: "Werk24"
+#     aliases: ["werk24.ai"]
+#     sources:
+#       - type: rss
+#         url: "https://news.google.com/rss/search?q=Werk24&hl=en-US&gl=US&ceid=US:en"
+#     priority: critical
 
-  - name: "Energent.ai"
-    aliases: ["energent"]
-    sources:
-      - type: rss
-        url: "https://news.google.com/rss/search?q=Energent+AI+drawing&hl=en-US&gl=US&ceid=US:en"
-    priority: high
+#   - name: "Energent.ai"
+#     aliases: ["energent"]
+#     sources:
+#       - type: rss
+#         url: "https://news.google.com/rss/search?q=Energent+AI+drawing&hl=en-US&gl=US&ceid=US:en"
+#     priority: high
 
-  - name: "High QA"
-    aliases: ["HighQA", "high-qa"]
-    sources:
-      - type: rss
-        url: "https://news.google.com/rss/search?q=%22High+QA%22+manufacturing&hl=en-US&gl=US&ceid=US:en"
-    priority: high
+#   - name: "High QA"
+#     aliases: ["HighQA", "high-qa"]
+#     sources:
+#       - type: rss
+#         url: "https://news.google.com/rss/search?q=%22High+QA%22+manufacturing&hl=en-US&gl=US&ceid=US:en"
+#     priority: high
 
-  - name: "CoLab Software"
-    aliases: ["CoLab", "colab software"]
-    sources:
-      - type: rss
-        url: "https://news.google.com/rss/search?q=%22CoLab+Software%22&hl=en-US&gl=US&ceid=US:en"
-    priority: high
+#   - name: "CoLab Software"
+#     aliases: ["CoLab", "colab software"]
+#     sources:
+#       - type: rss
+#         url: "https://news.google.com/rss/search?q=%22CoLab+Software%22&hl=en-US&gl=US&ceid=US:en"
+#     priority: high
 
-  - name: "InspectionXpert / Ideagen"
-    aliases: ["InspectionXpert", "Ideagen"]
-    sources:
-      - type: rss
-        url: "https://news.google.com/rss/search?q=InspectionXpert+OR+Ideagen+quality&hl=en-US&gl=US&ceid=US:en"
-    priority: normal
+#   - name: "InspectionXpert / Ideagen"
+#     aliases: ["InspectionXpert", "Ideagen"]
+#     sources:
+#       - type: rss
+#         url: "https://news.google.com/rss/search?q=InspectionXpert+OR+Ideagen+quality&hl=en-US&gl=US&ceid=US:en"
+#     priority: normal
 
-  - name: "志丞科技"
-    aliases: ["志丞", "zhicheng"]
-    sources:
-      - type: rss
-        url: "https://news.google.com/rss/search?q=志丞科技+图纸&hl=zh-CN&gl=CN&ceid=CN:zh-Hans"
-    priority: high
+#   - name: "志丞科技"
+#     aliases: ["志丞", "zhicheng"]
+#     sources:
+#       - type: rss
+#         url: "https://news.google.com/rss/search?q=志丞科技+图纸&hl=zh-CN&gl=CN&ceid=CN:zh-Hans"
+#     priority: high
 
-  - name: "1Factory"
-    aliases: ["1factory.com"]
-    sources:
-      - type: rss
-        url: "https://news.google.com/rss/search?q=%221Factory%22+manufacturing+quality&hl=en-US&gl=US&ceid=US:en"
-    priority: normal
+#   - name: "1Factory"
+#     aliases: ["1factory.com"]
+#     sources:
+#       - type: rss
+#         url: "https://news.google.com/rss/search?q=%221Factory%22+manufacturing+quality&hl=en-US&gl=US&ceid=US:en"
+#     priority: normal
 
 # ── 行业监控（关键词广撒网）──────────────────────────────────────
 topics:

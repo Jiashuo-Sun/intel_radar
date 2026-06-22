@@ -1,0 +1,230 @@
+2026-06-22 18:05:37,393 [INFO] radar — === Intel Radar run start — 2026-06-22 ===
+2026-06-22 18:05:38,632 [INFO] src.fetcher — [premium/rss] 延峰集团: 7 items
+2026-06-22 18:05:40,820 [INFO] src.fetcher — [premium/rss] 延峰集团: 32 items
+2026-06-22 18:05:42,825 [INFO] src.fetcher — [premium/rss] Werk24: 0 items
+2026-06-22 18:05:44,950 [INFO] src.fetcher — [premium/rss] Energent.ai: 21 items
+2026-06-22 18:05:47,167 [INFO] src.fetcher — [premium/rss] High QA: 11 items
+2026-06-22 18:05:49,342 [INFO] src.fetcher — [premium/rss] CoLab Software: 35 items
+2026-06-22 18:05:51,605 [INFO] src.fetcher — [premium/rss] InspectionXpert / Ideagen: 50 items
+2026-06-22 18:05:53,678 [INFO] src.fetcher — [premium/rss] 志丞科技: 2 items
+2026-06-22 18:05:55,799 [INFO] src.fetcher — [premium/rss] 1Factory: 3 items
+2026-06-22 18:05:58,123 [INFO] src.fetcher — [topic/drawing_ai] [zh] '工业图纸 AI 识别': 65 items
+2026-06-22 18:06:00,496 [INFO] src.fetcher — [topic/drawing_ai] [zh] '工程图纸 智能处理': 69 items
+2026-06-22 18:06:02,821 [INFO] src.fetcher — [topic/drawing_ai] [zh] 'CAD图纸 数字化 2025': 3 items
+2026-06-22 18:06:04,929 [INFO] src.fetcher — [topic/drawing_ai] [zh] '图纸 OCR 工业': 4 items
+2026-06-22 18:06:07,423 [INFO] src.fetcher — [topic/drawing_ai] [en] 'engineering drawing OCR AI 2025': 6 items
+2026-06-22 18:06:10,158 [INFO] src.fetcher — [topic/drawing_ai] [en] 'automated ballooning FAI software': 1 items
+2026-06-22 18:06:12,148 [INFO] src.fetcher — [topic/drawing_ai] [en] 'GD&T extraction machine learning': 3 items
+2026-06-22 18:06:16,226 [INFO] src.fetcher — [topic/drawing_ai] [en] 'technical drawing understanding LLM': 6 items
+2026-06-22 18:06:18,491 [INFO] src.fetcher — [topic/drawing_ai] [en] 'drawing recognition manufacturing AI': 27 items
+2026-06-22 18:06:20,604 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [zh] '延峰 数字化转型': 7 items
+2026-06-22 18:06:22,832 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [zh] '延峰 AI 应用': 14 items
+2026-06-22 18:06:25,564 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [zh] '汽车内饰 智能制造 2025': 65 items
+2026-06-22 18:06:27,556 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [zh] 'IATF16949 数字化工具': 0 items
+2026-06-22 18:06:29,658 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [zh] '汽车Tier1 质量 AI': 5 items
+2026-06-22 18:06:31,666 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [en] 'Yanfeng automotive digitalization': 5 items
+2026-06-22 18:06:34,034 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [en] 'automotive Tier1 supplier quality AI': 58 items
+2026-06-22 18:06:36,384 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [en] 'PPAP automation software 2025': 1 items
+2026-06-22 18:06:39,018 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [en] 'automotive drawing management software': 66 items
+2026-06-22 18:06:41,520 [INFO] src.fetcher — [topic/tech_frontier] [en] 'document understanding model 2025': 78 items
+2026-06-22 18:06:43,946 [INFO] src.fetcher — [topic/tech_frontier] [en] 'multimodal OCR industrial application': 24 items
+2026-06-22 18:06:46,289 [INFO] src.fetcher — [topic/tech_frontier] [en] 'vision language model manufacturing': 77 items
+2026-06-22 18:06:48,295 [INFO] src.fetcher — [topic/tech_frontier] [en] 'RapidOCR PaddleOCR industrial': 0 items
+2026-06-22 18:06:50,619 [INFO] src.fetcher — [topic/tech_frontier] [en] 'HuggingFace document AI release': 56 items
+2026-06-22 18:06:53,405 [INFO] src.fetcher — [arxiv] 'engineering drawing extraction': 8 items
+2026-06-22 18:06:55,790 [INFO] src.fetcher — [arxiv] 'technical drawing deep learning': 8 items
+2026-06-22 18:06:58,164 [INFO] src.fetcher — [arxiv] 'industrial document understanding': 8 items
+2026-06-22 18:07:00,385 [INFO] src.fetcher — [arxiv] 'CAD recognition neural network': 8 items
+2026-06-22 18:07:01,943 [INFO] src.fetcher — [topic/market_signals] [zh] '工业数字化 招标 2025': 11 items
+2026-06-22 18:07:04,588 [INFO] src.fetcher — [topic/market_signals] [zh] '制造业 AI 中标': 42 items
+2026-06-22 18:07:06,813 [INFO] src.fetcher — [topic/market_signals] [zh] '智能制造 政府采购 2025': 57 items
+2026-06-22 18:07:09,057 [INFO] src.fetcher — [topic/market_signals] [zh] '汽车零部件 数字化 解决方案': 64 items
+2026-06-22 18:07:11,439 [INFO] src.fetcher — [topic/market_signals] [zh] '工厂数字化 采购': 56 items
+2026-06-22 18:07:13,789 [INFO] src.fetcher — [topic/market_signals] [en] 'manufacturing AI software tender 2025': 52 items
+2026-06-22 18:07:16,435 [INFO] src.fetcher — [topic/market_signals] [en] 'industrial digitalization contract awarded': 65 items
+2026-06-22 18:07:17,940 [INFO] src.fetcher — Total raw items fetched: 1180
+2026-06-22 18:07:17,940 [INFO] radar — Fetched total: 1180 raw items
+2026-06-22 18:07:20,248 [INFO] src.processor — Processed: 366 kept, 49 deduped
+2026-06-22 18:07:20,248 [INFO] radar — Processed: 366 items to report
+2026-06-22 18:07:20,250 [INFO] src.reporter — Report written: ./output/2026-06-22.md
+2026-06-22 18:07:20,470 [INFO] radar — === Done. Report: ./output/2026-06-22.md ===
+2026-06-22 18:08:25,536 [INFO] radar — === Intel Radar run start — 2026-06-22 ===
+2026-06-22 18:08:26,177 [INFO] src.fetcher — [premium/rss] 延峰集团: 7 items
+2026-06-22 18:08:28,374 [INFO] src.fetcher — [premium/rss] 延峰集团: 32 items
+2026-06-22 18:08:30,368 [INFO] src.fetcher — [premium/rss] Werk24: 0 items
+2026-06-22 18:08:32,474 [INFO] src.fetcher — [premium/rss] Energent.ai: 21 items
+2026-06-22 18:08:34,641 [INFO] src.fetcher — [premium/rss] High QA: 11 items
+2026-06-22 18:08:37,562 [INFO] src.fetcher — [premium/rss] CoLab Software: 35 items
+2026-06-22 18:08:39,824 [INFO] src.fetcher — [premium/rss] InspectionXpert / Ideagen: 50 items
+2026-06-22 18:08:41,879 [INFO] src.fetcher — [premium/rss] 志丞科技: 2 items
+2026-06-22 18:08:44,306 [INFO] src.fetcher — [premium/rss] 1Factory: 3 items
+2026-06-22 18:08:46,653 [INFO] src.fetcher — [topic/drawing_ai] [zh] '工业图纸 AI 识别': 65 items
+2026-06-22 18:08:49,038 [INFO] src.fetcher — [topic/drawing_ai] [zh] '工程图纸 智能处理': 69 items
+2026-06-22 18:08:51,161 [INFO] src.fetcher — [topic/drawing_ai] [zh] 'CAD图纸 数字化 2025': 3 items
+2026-06-22 18:08:53,268 [INFO] src.fetcher — [topic/drawing_ai] [zh] '图纸 OCR 工业': 4 items
+2026-06-22 18:08:55,343 [INFO] src.fetcher — [topic/drawing_ai] [en] 'engineering drawing OCR AI 2025': 6 items
+2026-06-22 18:08:58,923 [INFO] src.fetcher — [topic/drawing_ai] [en] 'automated ballooning FAI software': 1 items
+2026-06-22 18:09:00,970 [INFO] src.fetcher — [topic/drawing_ai] [en] 'GD&T extraction machine learning': 3 items
+2026-06-22 18:09:03,367 [INFO] src.fetcher — [topic/drawing_ai] [en] 'technical drawing understanding LLM': 6 items
+2026-06-22 18:09:05,573 [INFO] src.fetcher — [topic/drawing_ai] [en] 'drawing recognition manufacturing AI': 27 items
+2026-06-22 18:09:07,596 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [zh] '延峰 数字化转型': 7 items
+2026-06-22 18:09:09,685 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [zh] '延峰 AI 应用': 14 items
+2026-06-22 18:09:12,247 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [zh] '汽车内饰 智能制造 2025': 65 items
+2026-06-22 18:09:14,264 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [zh] 'IATF16949 数字化工具': 0 items
+2026-06-22 18:09:16,313 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [zh] '汽车Tier1 质量 AI': 5 items
+2026-06-22 18:09:18,316 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [en] 'Yanfeng automotive digitalization': 5 items
+2026-06-22 18:09:20,847 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [en] 'automotive Tier1 supplier quality AI': 58 items
+2026-06-22 18:09:22,875 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [en] 'PPAP automation software 2025': 1 items
+2026-06-22 18:09:25,191 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [en] 'automotive drawing management software': 66 items
+2026-06-22 18:09:27,587 [INFO] src.fetcher — [topic/tech_frontier] [en] 'document understanding model 2025': 78 items
+2026-06-22 18:09:29,658 [INFO] src.fetcher — [topic/tech_frontier] [en] 'multimodal OCR industrial application': 24 items
+2026-06-22 18:09:32,028 [INFO] src.fetcher — [topic/tech_frontier] [en] 'vision language model manufacturing': 77 items
+2026-06-22 18:09:34,015 [INFO] src.fetcher — [topic/tech_frontier] [en] 'RapidOCR PaddleOCR industrial': 0 items
+2026-06-22 18:09:36,236 [INFO] src.fetcher — [topic/tech_frontier] [en] 'HuggingFace document AI release': 56 items
+2026-06-22 18:09:38,609 [INFO] src.fetcher — [arxiv] 'engineering drawing extraction': 8 items
+2026-06-22 18:09:40,439 [INFO] src.fetcher — [arxiv] 'technical drawing deep learning': 8 items
+2026-06-22 18:09:42,389 [INFO] src.fetcher — [arxiv] 'industrial document understanding': 8 items
+2026-06-22 18:09:44,043 [INFO] src.fetcher — [arxiv] 'CAD recognition neural network': 8 items
+2026-06-22 18:09:45,607 [INFO] src.fetcher — [topic/market_signals] [zh] '工业数字化 招标 2025': 11 items
+2026-06-22 18:09:48,524 [INFO] src.fetcher — [topic/market_signals] [zh] '制造业 AI 中标': 41 items
+2026-06-22 18:09:50,833 [INFO] src.fetcher — [topic/market_signals] [zh] '智能制造 政府采购 2025': 57 items
+2026-06-22 18:09:53,065 [INFO] src.fetcher — [topic/market_signals] [zh] '汽车零部件 数字化 解决方案': 64 items
+2026-06-22 18:09:55,229 [INFO] src.fetcher — [topic/market_signals] [zh] '工厂数字化 采购': 56 items
+2026-06-22 18:09:57,991 [INFO] src.fetcher — [topic/market_signals] [en] 'manufacturing AI software tender 2025': 52 items
+2026-06-22 18:10:00,314 [INFO] src.fetcher — [topic/market_signals] [en] 'industrial digitalization contract awarded': 65 items
+2026-06-22 18:10:01,820 [INFO] src.fetcher — Total raw items fetched: 1179
+2026-06-22 18:10:01,821 [INFO] radar — Fetched total: 1179 raw items
+2026-06-22 18:10:02,164 [INFO] src.processor — Processed: 0 kept, 1178 deduped
+2026-06-22 18:10:02,164 [INFO] src.processor — ANTHROPIC_API_KEY not set — skipping AI summary
+2026-06-22 18:10:02,164 [INFO] radar — Processed: 0 items to report
+2026-06-22 18:10:02,165 [INFO] src.reporter — Report written: ./output/2026-06-22.md
+2026-06-22 18:10:02,166 [INFO] radar — === Done. Report: ./output/2026-06-22.md ===
+2026-06-22 18:12:56,714 [INFO] radar — === Intel Radar run start — 2026-06-22 ===
+2026-06-22 18:12:57,358 [INFO] src.fetcher — [premium/rss] 延峰集团: 7 items
+2026-06-22 18:12:59,435 [INFO] src.fetcher — [premium/rss] 延峰集团: 32 items
+2026-06-22 18:13:01,408 [INFO] src.fetcher — [premium/rss] Werk24: 0 items
+2026-06-22 18:13:03,892 [INFO] src.fetcher — [premium/rss] Energent.ai: 21 items
+2026-06-22 18:13:05,969 [INFO] src.fetcher — [premium/rss] High QA: 11 items
+2026-06-22 18:13:08,153 [INFO] src.fetcher — [premium/rss] CoLab Software: 35 items
+2026-06-22 18:13:10,270 [INFO] src.fetcher — [premium/rss] InspectionXpert / Ideagen: 50 items
+2026-06-22 18:13:12,347 [INFO] src.fetcher — [premium/rss] 志丞科技: 2 items
+2026-06-22 18:13:14,693 [INFO] src.fetcher — [premium/rss] 1Factory: 3 items
+2026-06-22 18:13:16,896 [INFO] src.fetcher — [topic/drawing_ai] [zh] '工业图纸 AI 识别': 65 items
+2026-06-22 18:13:19,997 [INFO] src.fetcher — [topic/drawing_ai] [zh] '工程图纸 智能处理': 70 items
+2026-06-22 18:13:22,403 [INFO] src.fetcher — [topic/drawing_ai] [zh] 'CAD图纸 数字化 2025': 3 items
+2026-06-22 18:13:24,750 [INFO] src.fetcher — [topic/drawing_ai] [zh] '图纸 OCR 工业': 4 items
+2026-06-22 18:13:26,784 [INFO] src.fetcher — [topic/drawing_ai] [en] 'engineering drawing OCR AI 2025': 6 items
+2026-06-22 18:13:33,138 [INFO] src.fetcher — [topic/drawing_ai] [en] 'automated ballooning FAI software': 1 items
+2026-06-22 18:13:35,128 [INFO] src.fetcher — [topic/drawing_ai] [en] 'GD&T extraction machine learning': 3 items
+2026-06-22 18:13:37,238 [INFO] src.fetcher — [topic/drawing_ai] [en] 'technical drawing understanding LLM': 6 items
+2026-06-22 18:13:39,398 [INFO] src.fetcher — [topic/drawing_ai] [en] 'drawing recognition manufacturing AI': 27 items
+2026-06-22 18:13:41,452 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [zh] '延峰 数字化转型': 7 items
+2026-06-22 18:13:43,602 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [zh] '延峰 AI 应用': 14 items
+2026-06-22 18:13:46,371 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [zh] '汽车内饰 智能制造 2025': 65 items
+2026-06-22 18:13:48,367 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [zh] 'IATF16949 数字化工具': 0 items
+2026-06-22 18:13:51,749 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [zh] '汽车Tier1 质量 AI': 5 items
+2026-06-22 18:13:54,196 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [en] 'Yanfeng automotive digitalization': 5 items
+2026-06-22 18:13:56,529 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [en] 'automotive Tier1 supplier quality AI': 58 items
+2026-06-22 18:13:58,875 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [en] 'PPAP automation software 2025': 1 items
+2026-06-22 18:14:01,261 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [en] 'automotive drawing management software': 66 items
+2026-06-22 18:14:03,683 [INFO] src.fetcher — [topic/tech_frontier] [en] 'document understanding model 2025': 78 items
+2026-06-22 18:14:05,845 [INFO] src.fetcher — [topic/tech_frontier] [en] 'multimodal OCR industrial application': 24 items
+2026-06-22 18:14:08,150 [INFO] src.fetcher — [topic/tech_frontier] [en] 'vision language model manufacturing': 77 items
+2026-06-22 18:14:10,141 [INFO] src.fetcher — [topic/tech_frontier] [en] 'RapidOCR PaddleOCR industrial': 0 items
+2026-06-22 18:14:12,585 [INFO] src.fetcher — [topic/tech_frontier] [en] 'HuggingFace document AI release': 56 items
+2026-06-22 18:14:14,814 [INFO] src.fetcher — [arxiv] 'engineering drawing extraction': 8 items
+2026-06-22 18:14:16,590 [INFO] src.fetcher — [arxiv] 'technical drawing deep learning': 8 items
+2026-06-22 18:14:18,325 [INFO] src.fetcher — [arxiv] 'industrial document understanding': 8 items
+2026-06-22 18:14:20,054 [INFO] src.fetcher — [arxiv] 'CAD recognition neural network': 8 items
+2026-06-22 18:14:21,593 [INFO] src.fetcher — [topic/market_signals] [zh] '工业数字化 招标 2025': 11 items
+2026-06-22 18:14:23,768 [INFO] src.fetcher — [topic/market_signals] [zh] '制造业 AI 中标': 41 items
+2026-06-22 18:14:26,135 [INFO] src.fetcher — [topic/market_signals] [zh] '智能制造 政府采购 2025': 57 items
+2026-06-22 18:14:28,346 [INFO] src.fetcher — [topic/market_signals] [zh] '汽车零部件 数字化 解决方案': 64 items
+2026-06-22 18:14:30,621 [INFO] src.fetcher — [topic/market_signals] [zh] '工厂数字化 采购': 56 items
+2026-06-22 18:14:32,826 [INFO] src.fetcher — [topic/market_signals] [en] 'manufacturing AI software tender 2025': 52 items
+2026-06-22 18:14:35,032 [INFO] src.fetcher — [topic/market_signals] [en] 'industrial digitalization contract awarded': 65 items
+2026-06-22 18:14:36,537 [INFO] src.fetcher — Total raw items fetched: 1180
+2026-06-22 18:14:36,538 [INFO] radar — Fetched total: 1180 raw items
+2026-06-22 18:14:36,789 [INFO] src.processor — Processed: 0 kept, 1179 deduped
+2026-06-22 18:14:36,790 [INFO] radar — Processed: 0 items to report
+2026-06-22 18:14:36,790 [INFO] src.reporter — Report written: ./output/2026-06-22.md
+2026-06-22 18:14:36,791 [INFO] radar — === Done. Report: ./output/2026-06-22.md ===
+2026-06-22 18:33:40,385 [INFO] radar — === Intel Radar run start — 2026-06-22 ===
+2026-06-22 18:33:41,264 [INFO] src.fetcher — [topic/drawing_ai] [zh] '工业图纸 AI 识别': 65 items
+2026-06-22 18:33:43,956 [INFO] src.fetcher — [topic/drawing_ai] [zh] '工程图纸 智能处理': 70 items
+2026-06-22 18:33:45,955 [INFO] src.fetcher — [topic/drawing_ai] [zh] 'CAD图纸 数字化 2025': 3 items
+2026-06-22 18:33:47,978 [INFO] src.fetcher — [topic/drawing_ai] [zh] '图纸 OCR 工业': 4 items
+2026-06-22 18:33:50,066 [INFO] src.fetcher — [topic/drawing_ai] [en] 'engineering drawing OCR AI 2025': 6 items
+2026-06-22 18:33:52,061 [INFO] src.fetcher — [topic/drawing_ai] [en] 'automated ballooning FAI software': 1 items
+2026-06-22 18:33:54,138 [INFO] src.fetcher — [topic/drawing_ai] [en] 'GD&T extraction machine learning': 3 items
+2026-06-22 18:33:56,221 [INFO] src.fetcher — [topic/drawing_ai] [en] 'technical drawing understanding LLM': 6 items
+2026-06-22 18:33:58,400 [INFO] src.fetcher — [topic/drawing_ai] [en] 'drawing recognition manufacturing AI': 27 items
+2026-06-22 18:34:00,506 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [zh] '延峰 数字化转型': 7 items
+2026-06-22 18:34:02,912 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [zh] '延峰 AI 应用': 14 items
+2026-06-22 18:34:05,170 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [zh] '汽车内饰 智能制造 2025': 65 items
+2026-06-22 18:34:07,138 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [zh] 'IATF16949 数字化工具': 0 items
+2026-06-22 18:34:09,158 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [zh] '汽车Tier1 质量 AI': 5 items
+2026-06-22 18:34:11,207 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [en] 'Yanfeng automotive digitalization': 5 items
+2026-06-22 18:34:13,270 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [en] 'automotive Tier1 supplier quality AI': 0 items
+2026-06-22 18:34:15,730 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [en] 'PPAP automation software 2025': 1 items
+2026-06-22 18:34:19,541 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [en] 'automotive drawing management software': 66 items
+2026-06-22 18:34:21,934 [INFO] src.fetcher — [topic/tech_frontier] [en] 'document understanding model 2025': 78 items
+2026-06-22 18:34:24,107 [INFO] src.fetcher — [topic/tech_frontier] [en] 'multimodal OCR industrial application': 24 items
+2026-06-22 18:34:26,426 [INFO] src.fetcher — [topic/tech_frontier] [en] 'vision language model manufacturing': 77 items
+2026-06-22 18:34:28,421 [INFO] src.fetcher — [topic/tech_frontier] [en] 'RapidOCR PaddleOCR industrial': 0 items
+2026-06-22 18:34:30,646 [INFO] src.fetcher — [topic/tech_frontier] [en] 'HuggingFace document AI release': 57 items
+2026-06-22 18:34:32,840 [INFO] src.fetcher — [arxiv] 'engineering drawing extraction': 8 items
+2026-06-22 18:34:34,504 [INFO] src.fetcher — [arxiv] 'technical drawing deep learning': 8 items
+2026-06-22 18:34:36,047 [INFO] src.fetcher — [arxiv] 'industrial document understanding': 8 items
+2026-06-22 18:34:37,645 [INFO] src.fetcher — [arxiv] 'CAD recognition neural network': 8 items
+2026-06-22 18:34:39,180 [INFO] src.fetcher — [topic/market_signals] [zh] '工业数字化 招标 2025': 11 items
+2026-06-22 18:34:41,316 [INFO] src.fetcher — [topic/market_signals] [zh] '制造业 AI 中标': 41 items
+2026-06-22 18:34:44,173 [INFO] src.fetcher — [topic/market_signals] [zh] '智能制造 政府采购 2025': 57 items
+2026-06-22 18:34:46,511 [INFO] src.fetcher — [topic/market_signals] [zh] '汽车零部件 数字化 解决方案': 64 items
+2026-06-22 18:34:48,687 [INFO] src.fetcher — [topic/market_signals] [zh] '工厂数字化 采购': 56 items
+2026-06-22 18:34:51,299 [INFO] src.fetcher — [topic/market_signals] [en] 'manufacturing AI software tender 2025': 52 items
+2026-06-22 18:34:54,318 [INFO] src.fetcher — [topic/market_signals] [en] 'industrial digitalization contract awarded': 65 items
+2026-06-22 18:34:55,824 [INFO] src.fetcher — Total raw items fetched: 962
+2026-06-22 18:34:55,825 [INFO] radar — Fetched total: 962 raw items
+2026-06-22 18:34:55,825 [INFO] radar — [DRY RUN] Items fetched (not saved):
+2026-06-22 18:35:28,350 [INFO] radar — === Intel Radar run start — 2026-06-22 ===
+2026-06-22 18:35:28,908 [INFO] src.fetcher — [topic/drawing_ai] [zh] '工业图纸 AI 识别': 65 items
+2026-06-22 18:35:31,146 [INFO] src.fetcher — [topic/drawing_ai] [zh] '工程图纸 智能处理': 70 items
+2026-06-22 18:35:32,983 [INFO] src.fetcher — [topic/drawing_ai] [zh] 'CAD图纸 数字化 2025': 3 items
+2026-06-22 18:35:34,844 [INFO] src.fetcher — [topic/drawing_ai] [zh] '图纸 OCR 工业': 4 items
+2026-06-22 18:35:37,027 [INFO] src.fetcher — [topic/drawing_ai] [en] 'engineering drawing OCR AI 2025': 6 items
+2026-06-22 18:35:38,896 [INFO] src.fetcher — [topic/drawing_ai] [en] 'automated ballooning FAI software': 1 items
+2026-06-22 18:35:40,763 [INFO] src.fetcher — [topic/drawing_ai] [en] 'GD&T extraction machine learning': 3 items
+2026-06-22 18:35:42,622 [INFO] src.fetcher — [topic/drawing_ai] [en] 'technical drawing understanding LLM': 6 items
+2026-06-22 18:35:44,886 [INFO] src.fetcher — [topic/drawing_ai] [en] 'drawing recognition manufacturing AI': 27 items
+2026-06-22 18:35:46,738 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [zh] '延峰 数字化转型': 7 items
+2026-06-22 18:35:48,726 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [zh] '延峰 AI 应用': 14 items
+2026-06-22 18:35:50,657 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [zh] '汽车内饰 智能制造 2025': 65 items
+2026-06-22 18:35:53,392 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [zh] 'IATF16949 数字化工具': 0 items
+2026-06-22 18:35:55,237 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [zh] '汽车Tier1 质量 AI': 5 items
+2026-06-22 18:35:57,083 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [en] 'Yanfeng automotive digitalization': 5 items
+2026-06-22 18:35:58,945 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [en] 'automotive Tier1 supplier quality AI': 0 items
+2026-06-22 18:36:00,784 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [en] 'PPAP automation software 2025': 1 items
+2026-06-22 18:36:02,770 [INFO] src.fetcher — [topic/yanfeng_ecosystem] [en] 'automotive drawing management software': 66 items
+2026-06-22 18:36:04,694 [INFO] src.fetcher — [topic/tech_frontier] [en] 'document understanding model 2025': 78 items
+2026-06-22 18:36:06,624 [INFO] src.fetcher — [topic/tech_frontier] [en] 'multimodal OCR industrial application': 24 items
+2026-06-22 18:36:08,576 [INFO] src.fetcher — [topic/tech_frontier] [en] 'vision language model manufacturing': 77 items
+2026-06-22 18:36:10,402 [INFO] src.fetcher — [topic/tech_frontier] [en] 'RapidOCR PaddleOCR industrial': 0 items
+2026-06-22 18:36:13,847 [INFO] src.fetcher — [topic/tech_frontier] [en] 'HuggingFace document AI release': 57 items
+2026-06-22 18:36:15,941 [INFO] src.fetcher — [arxiv] 'engineering drawing extraction': 8 items
+2026-06-22 18:36:17,621 [INFO] src.fetcher — [arxiv] 'technical drawing deep learning': 8 items
+2026-06-22 18:36:19,196 [INFO] src.fetcher — [arxiv] 'industrial document understanding': 8 items
+2026-06-22 18:36:20,937 [INFO] src.fetcher — [arxiv] 'CAD recognition neural network': 8 items
+2026-06-22 18:36:22,302 [INFO] src.fetcher — [topic/market_signals] [zh] '工业数字化 招标 2025': 11 items
+2026-06-22 18:36:24,166 [INFO] src.fetcher — [topic/market_signals] [zh] '制造业 AI 中标': 41 items
+2026-06-22 18:36:26,129 [INFO] src.fetcher — [topic/market_signals] [zh] '智能制造 政府采购 2025': 57 items
+2026-06-22 18:36:28,160 [INFO] src.fetcher — [topic/market_signals] [zh] '汽车零部件 数字化 解决方案': 64 items
+2026-06-22 18:36:30,144 [INFO] src.fetcher — [topic/market_signals] [zh] '工厂数字化 采购': 56 items
+2026-06-22 18:36:32,567 [INFO] src.fetcher — [topic/market_signals] [en] 'manufacturing AI software tender 2025': 52 items
+2026-06-22 18:36:34,549 [INFO] src.fetcher — [topic/market_signals] [en] 'industrial digitalization contract awarded': 65 items
+2026-06-22 18:36:36,055 [INFO] src.fetcher — Total raw items fetched: 962
+2026-06-22 18:36:36,056 [INFO] radar — Fetched total: 962 raw items
+2026-06-22 18:36:36,279 [INFO] src.processor — Processed: 1 kept, 957 deduped
+2026-06-22 18:36:36,279 [INFO] radar — Processed: 1 items to report
+2026-06-22 18:36:36,282 [INFO] src.reporter — Report written: ./output/2026-06-22.md
+2026-06-22 18:36:36,283 [INFO] radar — === Done. Report: ./output/2026-06-22.md ===
