@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Project runtime data
+data/
+logs/
+output/
+
+# macOS
+.DS_Store
+
+# Environment
+.env
