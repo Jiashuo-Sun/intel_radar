@@ -1,0 +1,124 @@
+# ============================================================
+# Intel Radar · 监控对象配置
+# 修改这里即可调整监控范围，无需动代码
+# ============================================================
+
+# ── 精品监控（深度跟踪指定公司）────────────────────────────────
+premium:
+  - name: "延峰集团"
+    aliases: ["Yanfeng", "YF", "延锋"]
+    sources:
+      - type: rss
+        url: "https://news.google.com/rss/search?q=延峰+数字化&hl=zh-CN&gl=CN&ceid=CN:zh-Hans"
+      - type: rss
+        url: "https://news.google.com/rss/search?q=Yanfeng+automotive+AI&hl=en-US&gl=US&ceid=US:en"
+    priority: critical
+
+  - name: "Werk24"
+    aliases: ["werk24.ai"]
+    sources:
+      - type: rss
+        url: "https://news.google.com/rss/search?q=Werk24&hl=en-US&gl=US&ceid=US:en"
+    priority: critical
+
+  - name: "Energent.ai"
+    aliases: ["energent"]
+    sources:
+      - type: rss
+        url: "https://news.google.com/rss/search?q=Energent+AI+drawing&hl=en-US&gl=US&ceid=US:en"
+    priority: high
+
+  - name: "High QA"
+    aliases: ["HighQA", "high-qa"]
+    sources:
+      - type: rss
+        url: "https://news.google.com/rss/search?q=%22High+QA%22+manufacturing&hl=en-US&gl=US&ceid=US:en"
+    priority: high
+
+  - name: "CoLab Software"
+    aliases: ["CoLab", "colab software"]
+    sources:
+      - type: rss
+        url: "https://news.google.com/rss/search?q=%22CoLab+Software%22&hl=en-US&gl=US&ceid=US:en"
+    priority: high
+
+  - name: "InspectionXpert / Ideagen"
+    aliases: ["InspectionXpert", "Ideagen"]
+    sources:
+      - type: rss
+        url: "https://news.google.com/rss/search?q=InspectionXpert+OR+Ideagen+quality&hl=en-US&gl=US&ceid=US:en"
+    priority: normal
+
+  - name: "志丞科技"
+    aliases: ["志丞", "zhicheng"]
+    sources:
+      - type: rss
+        url: "https://news.google.com/rss/search?q=志丞科技+图纸&hl=zh-CN&gl=CN&ceid=CN:zh-Hans"
+    priority: high
+
+  - name: "1Factory"
+    aliases: ["1factory.com"]
+    sources:
+      - type: rss
+        url: "https://news.google.com/rss/search?q=%221Factory%22+manufacturing+quality&hl=en-US&gl=US&ceid=US:en"
+    priority: normal
+
+# ── 行业监控（关键词广撒网）──────────────────────────────────────
+topics:
+  drawing_ai:
+    label: "图纸AI核心"
+    queries:
+      zh:
+        - "工业图纸 AI 识别"
+        - "工程图纸 智能处理"
+        - "CAD图纸 数字化 2025"
+        - "图纸 OCR 工业"
+      en:
+        - "engineering drawing OCR AI 2025"
+        - "automated ballooning FAI software"
+        - "GD&T extraction machine learning"
+        - "technical drawing understanding LLM"
+        - "drawing recognition manufacturing AI"
+
+  yanfeng_ecosystem:
+    label: "延峰生态"
+    queries:
+      zh:
+        - "延峰 数字化转型"
+        - "延峰 AI 应用"
+        - "汽车内饰 智能制造 2025"
+        - "IATF16949 数字化工具"
+        - "汽车Tier1 质量 AI"
+      en:
+        - "Yanfeng automotive digitalization"
+        - "automotive Tier1 supplier quality AI"
+        - "PPAP automation software 2025"
+        - "automotive drawing management software"
+
+  tech_frontier:
+    label: "技术前沿"
+    queries:
+      en:
+        - "document understanding model 2025"
+        - "multimodal OCR industrial application"
+        - "vision language model manufacturing"
+        - "RapidOCR PaddleOCR industrial"
+        - "HuggingFace document AI release"
+    arxiv:
+      - "engineering drawing extraction"
+      - "technical drawing deep learning"
+      - "industrial document understanding"
+      - "CAD recognition neural network"
+
+  market_signals:
+    label: "市场信号"
+    queries:
+      zh:
+        - "工业数字化 招标 2025"
+        - "制造业 AI 中标"
+        - "智能制造 政府采购 2025"
+        - "汽车零部件 数字化 解决方案"
+        - "工厂数字化 采购"
+      en:
+        - "manufacturing AI software tender 2025"
+        - "industrial digitalization contract awarded"

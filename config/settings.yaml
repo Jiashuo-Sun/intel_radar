@@ -1,0 +1,40 @@
+# ============================================================
+# Intel Radar · 运行参数配置
+# ============================================================
+
+schedule:
+  run_at: "06:30"
+  lookback_days: 2
+  timezone: "Asia/Shanghai"
+
+output:
+  dir: "./output"
+  filename_format: "%Y-%m-%d.md"
+  keep_days: 90
+
+database:
+  path: "./data/radar.db"
+
+fetcher:
+  timeout_seconds: 15
+  retry: 2
+  user_agent: "IntelRadar/1.0 (internal monitoring)"
+  google_news_locale:
+    zh: { hl: "zh-CN", gl: "CN", ceid: "CN:zh-Hans" }
+    en: { hl: "en-US", gl: "US", ceid: "US:en" }
+
+processor:
+  dedup_window_days: 7
+  simhash_threshold: 3
+  min_score_for_report: 1
+  high_priority_threshold: 4
+
+# AI 摘要（可选）
+# 启用前设置环境变量：export ANTHROPIC_API_KEY="sk-ant-..."
+ai:
+  enabled: true
+  provider: "anthropic"
+  model: "claude-haiku-4-5-20251001"
+  api_key_env: "ANTHROPIC_API_KEY"
+  summarize_threshold: 3
+  max_items_per_run: 15
