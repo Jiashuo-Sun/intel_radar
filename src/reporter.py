@@ -66,9 +66,11 @@ class Reporter:
         lines.append(f"# 情报日报 · {report_date.strftime('%Y-%m-%d')}\n")
         lines.append(
             f"> 采集时间：{datetime.now().strftime('%H:%M')}  "
-            f"| 新增条目：{stats.get('new', 0)}  "
+            f"| 进入日报：{stats.get('new', 0)}  "
             f"| 高优先级：{len(high)}  "
-            f"| 去重过滤：{stats.get('deduped', 0)}\n"
+            f"| 已见过：{stats.get('url_deduped', stats.get('deduped', 0))}  "
+            f"| 低相关过滤：{stats.get('score_filtered', 0)}  "
+            f"| 近似去重：{stats.get('simhash_deduped', 0)}\n"
         )
         lines.append("---\n")
 

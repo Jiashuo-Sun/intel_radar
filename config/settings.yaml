@@ -41,7 +41,7 @@ processor:
 ai:
   enabled: true
   provider: "anthropic"        # "anthropic" | "lmstudio"
-  summarize_threshold: 3       # 分数 >= 此值才调用 AI 摘要
+  summarize_threshold: 1       # 分数 >= 此值才调用 AI 摘要（等于 min_score_for_report，确保所有进报告的条目都被摘要）
   max_items_per_run: 15        # 每次运行最多摘要多少条（控制成本/耗时）
 
   # Anthropic 云端 API

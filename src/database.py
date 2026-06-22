@@ -4,13 +4,12 @@ database.py — SQLite 本地存储
 import sqlite3
 import hashlib
 import os
-from datetime import datetime, date
-from dataclasses import dataclass
-from typing import Optional, List
+from datetime import datetime
+from typing import Optional
 
 
 def _simhash(text: str) -> int:
-    """极简 SimHash，返回 64 位有符号整数（SQLite INTEGER 兼容）"""
+    """Minimal SimHash — returns a signed 64-bit integer compatible with SQLite INTEGER."""
     v = [0] * 64
     words = text.lower().split()
     for w in words:
@@ -21,7 +20,6 @@ def _simhash(text: str) -> int:
     for i in range(64):
         if v[i] > 0:
             result |= (1 << i)
-    # 转为有符号 64 位整数
     if result >= (1 << 63):
         result -= (1 << 64)
     return result
@@ -72,15 +70,16 @@ class Database:
             );
             """)
 
-    def is_duplicate(self, url: str, title: str, window_days: int = 7, threshold: int = 3) -> bool:
+    def is_url_duplicate(self, url: str) -> bool:
+        """Return True if this URL was already saved to DB (seen and scored relevant before)."""
         url_hash = hashlib.md5(url.encode()).hexdigest()
         with self._conn() as c:
-            # 精确URL匹配
-            row = c.execute("SELECT 1 FROM items WHERE url_hash=?", (url_hash,)).fetchone()
-            if row:
-                return True
-            # SimHash相似度（只查最近window_days天）
-            title_hash = _simhash(title)
+            return c.execute("SELECT 1 FROM items WHERE url_hash=?", (url_hash,)).fetchone() is not None
+
+    def is_simhash_duplicate(self, title: str, window_days: int = 7, threshold: int = 3) -> bool:
+        """Return True if a near-identical title exists within the dedup window."""
+        title_hash = _simhash(title)
+        with self._conn() as c:
             rows = c.execute(
                 "SELECT title_hash FROM items WHERE fetched_at >= date('now', ?)",
                 (f"-{window_days} days",)
@@ -89,6 +88,10 @@ class Database:
                 if th and _hamming(title_hash, th) <= threshold:
                     return True
         return False
+
+    # Keep legacy method for any external callers
+    def is_duplicate(self, url: str, title: str, window_days: int = 7, threshold: int = 3) -> bool:
+        return self.is_url_duplicate(url) or self.is_simhash_duplicate(title, window_days, threshold)
 
     def save_item(self, url: str, title: str, source_name: str, topic_group: str,
                   score: int, published_at: Optional[str], summary_ai: str = "",
@@ -124,3 +127,9 @@ class Database:
                 INSERT INTO runs (run_at, items_fetched, items_new, items_deduped, report_path, error)
                 VALUES (?,?,?,?,?,?)
             """, (datetime.now().isoformat(), fetched, new, deduped, report_path, error))
+
+    def clear(self):
+        """Drop and recreate all tables — use only for maintenance/testing."""
+        with self._conn() as c:
+            c.executescript("DROP TABLE IF EXISTS items; DROP TABLE IF EXISTS runs;")
+        self._init()

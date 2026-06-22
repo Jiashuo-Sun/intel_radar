@@ -6,6 +6,11 @@ Supports two AI providers:
   - lmstudio:  LM Studio local inference (OpenAI-compatible, no key needed)
 
 Provider is selected via settings.yaml ai.provider field.
+
+Dedup strategy (three independent stages, each logged separately):
+  1. URL-exact match  — skip if URL already in DB (seen and relevant before)
+  2. Score filter     — skip if score < min_score (not relevant; NOT saved to DB)
+  3. SimHash dedup    — skip if title too similar to a recent report item
 """
 import re
 import os
@@ -13,7 +18,7 @@ import json
 import logging
 import urllib.request
 from dataclasses import dataclass
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 from .fetcher import RawItem
 from .database import Database
@@ -206,34 +211,58 @@ class Processor:
         self.simhash_threshold = self.proc_cfg.get("simhash_threshold", 3)
         self.min_score = self.proc_cfg.get("min_score_for_report", 1)
         self.high_threshold = self.proc_cfg.get("high_priority_threshold", 4)
-        self.ai_threshold = self.ai_cfg.get("summarize_threshold", 3)
+        self.ai_threshold = self.ai_cfg.get("summarize_threshold", 1)
         self.ai_max = self.ai_cfg.get("max_items_per_run", 20)
 
-    def process(self, raw_items: List[RawItem], use_ai: bool = True) -> List[ProcessedItem]:
+    def process(self, raw_items: List[RawItem], use_ai: bool = True
+                ) -> Tuple[List[ProcessedItem], dict]:
+        """
+        Process raw items through three sequential filters.
+        Returns (results, stats) where stats breaks down each filter stage.
+        """
         results: List[ProcessedItem] = []
-        deduped = 0
+        url_deduped = 0
+        score_filtered = 0
+        simhash_deduped = 0
 
         for item in raw_items:
-            if self.db.is_duplicate(item.url, item.title, self.window_days, self.simhash_threshold):
-                deduped += 1
+            # Stage 1: URL exact match — already tracked as a relevant item before
+            if self.db.is_url_duplicate(item.url):
+                url_deduped += 1
                 continue
+
+            # Stage 2: Score filter — not relevant enough; do NOT save to DB
             score = calculate_score(item)
             if score < self.min_score:
-                self.db.save_item(item.url, item.title, item.source_name,
-                                  item.topic_group, score, item.published_at)
+                score_filtered += 1
                 continue
+
+            # Stage 3: SimHash dedup — similar article already in a recent report
+            if self.db.is_simhash_duplicate(item.title, self.window_days, self.simhash_threshold):
+                simhash_deduped += 1
+                continue
+
             pi = ProcessedItem(raw=item, score=score)
             results.append(pi)
             self.db.save_item(item.url, item.title, item.source_name,
                               item.topic_group, score, item.published_at)
 
-        log.info(f"Processed: {len(results)} kept, {deduped} deduped")
+        log.info(
+            f"Filter breakdown — kept: {len(results)} | "
+            f"url-seen: {url_deduped} | "
+            f"score<{self.min_score}: {score_filtered} | "
+            f"simhash-dedup: {simhash_deduped}"
+        )
 
+        # AI summarization for all items that made it to the report
         if use_ai and self.ai_cfg.get("enabled"):
             to_summarize = [p for p in results if p.score >= self.ai_threshold][: self.ai_max]
             if to_summarize:
-                log.info(f"AI summarizing {len(to_summarize)} items "
-                         f"(provider={self.ai_cfg.get('provider', 'anthropic')})...")
+                log.info(
+                    f"AI summarizing {len(to_summarize)} items "
+                    f"(provider={self.ai_cfg.get('provider', 'anthropic')}, "
+                    f"threshold={self.ai_threshold})..."
+                )
                 ai_summarize_batch(to_summarize, self.ai_cfg)
                 for p in to_summarize:
                     self.db.update_ai(p.url, p.summary_ai, p.impact)
@@ -241,4 +270,10 @@ class Processor:
                 log.info("No items meet AI summarization threshold")
 
         results.sort(key=lambda x: x.score, reverse=True)
-        return results
+
+        proc_stats = {
+            "url_deduped": url_deduped,
+            "score_filtered": score_filtered,
+            "simhash_deduped": simhash_deduped,
+        }
+        return results, proc_stats

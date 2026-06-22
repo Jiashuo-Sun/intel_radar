@@ -468,21 +468,23 @@ CREATE TABLE runs (
 
 ### `src/processor.py`
 
+三阶段过滤，各阶段独立计数，方便诊断：
+
 ```python
-def process(raw_items: List[RawItem]) -> List[ProcessedItem]:
-    results = []
-    for item in raw_items:
-        if db.is_duplicate(item):      # 去重
-            continue
-        score = calculate_score(item)  # 打分
-        if score < settings.min_score:
-            db.archive(item)
-            continue
-        summary = ai_summarize(item) if score >= settings.ai_threshold else None
-        results.append(ProcessedItem(item, score, summary))
-        db.save(item)
-    return sorted(results, key=lambda x: x.score, reverse=True)
+# Stage 1: URL 精确去重（已进过日报的条目）
+if db.is_url_duplicate(url): url_deduped++; continue
+
+# Stage 2: 打分过滤（评分=0 不存DB，避免污染去重索引）
+score = calculate_score(item)
+if score < min_score: score_filtered++; continue
+
+# Stage 3: SimHash 近似去重（标题相似度高）
+if db.is_simhash_duplicate(title): simhash_deduped++; continue
+
+# 通过全部过滤 → 存DB + 进日报 + AI摘要
 ```
+
+**关键约束**：score < min_score 的条目**不保存到DB**。保存会导致下次运行时 URL 命中去重，产生大量误导性的 "deduped" 计数。
 
 ### `src/reporter.py`
 
