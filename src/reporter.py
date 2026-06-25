@@ -164,8 +164,11 @@ class Reporter:
 
         content = "\n".join(lines)
 
-        with open(path, "w", encoding="utf-8") as f:
+        # Write atomically: temp file then os.replace to avoid partial reads
+        tmp_path = path + ".tmp"
+        with open(tmp_path, "w", encoding="utf-8") as f:
             f.write(content)
+        os.replace(tmp_path, path)
 
         log.info(f"Report written: {path}")
         return path

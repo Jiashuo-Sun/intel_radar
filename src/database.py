@@ -8,11 +8,27 @@ from datetime import datetime
 from typing import Optional
 
 
+def _tokenize(text: str):
+    """Tokenize text for SimHash: whitespace tokens + individual CJK characters.
+
+    Chinese text has no word spaces, so tokenizing by space alone makes the whole
+    title one token and degrades SimHash to MD5 bits. Splitting CJK characters
+    individually restores character-level similarity detection.
+    """
+    tokens = []
+    # Add whitespace-separated words (handles English / mixed text)
+    tokens.extend(text.lower().split())
+    # Add individual CJK characters (U+4E00–U+9FFF and common extension blocks)
+    for ch in text:
+        if '一' <= ch <= '鿿' or '㐀' <= ch <= '䶿':
+            tokens.append(ch)
+    return tokens
+
+
 def _simhash(text: str) -> int:
-    """Minimal SimHash — returns a signed 64-bit integer compatible with SQLite INTEGER."""
+    """64-bit SimHash — returns a signed integer compatible with SQLite INTEGER."""
     v = [0] * 64
-    words = text.lower().split()
-    for w in words:
+    for w in _tokenize(text):
         h = int(hashlib.md5(w.encode()).hexdigest(), 16)
         for i in range(64):
             v[i] += 1 if (h >> i) & 1 else -1
@@ -31,6 +47,7 @@ def _hamming(a: int, b: int) -> int:
 
 class Database:
     def __init__(self, path: str):
+        path = os.path.abspath(path)
         os.makedirs(os.path.dirname(path), exist_ok=True)
         self.path = path
         self._init()

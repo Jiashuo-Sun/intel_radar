@@ -67,33 +67,44 @@ def run_once(watch_cfg: dict, settings: dict, target_date: date,
             print(f"  [{item.topic_group}] {item.title[:80]}")
         return
 
-    # 处理
-    processor = Processor(db, settings)
-    processed, proc_stats = processor.process(raw_items, use_ai=use_ai)
-    log.info(f"Items for report: {len(processed)}")
+    report_path = ""
+    error_msg = ""
+    processed = []
+    proc_stats = {"url_deduped": 0, "score_filtered": 0, "simhash_deduped": 0}
 
-    # 生成日报
-    reporter = Reporter(settings)
-    stats = {
-        "new": len(processed),
-        "url_deduped": proc_stats["url_deduped"],
-        "score_filtered": proc_stats["score_filtered"],
-        "simhash_deduped": proc_stats["simhash_deduped"],
-        # backward-compat key used by reporter header
-        "deduped": proc_stats["url_deduped"] + proc_stats["simhash_deduped"],
-    }
-    report_path = reporter.generate(processed, target_date, stats)
+    try:
+        # 处理
+        processor = Processor(db, settings)
+        processed, proc_stats = processor.process(raw_items, use_ai=use_ai)
+        log.info(f"Items for report: {len(processed)}")
 
-    # 标记已报告
-    for item in processed:
-        db.mark_reported(item.url, target_date.isoformat())
+        # 生成日报
+        reporter = Reporter(settings)
+        stats = {
+            "new": len(processed),
+            "url_deduped": proc_stats["url_deduped"],
+            "score_filtered": proc_stats["score_filtered"],
+            "simhash_deduped": proc_stats["simhash_deduped"],
+            "deduped": proc_stats["url_deduped"] + proc_stats["simhash_deduped"],
+        }
+        report_path = reporter.generate(processed, target_date, stats)
 
-    db.log_run(
-        fetched=len(raw_items),
-        new=len(processed),
-        deduped=stats["deduped"],
-        report_path=report_path,
-    )
+        # 标记已报告
+        for item in processed:
+            db.mark_reported(item.url, target_date.isoformat())
+
+    except Exception as e:
+        error_msg = str(e)
+        log.exception(f"Pipeline error: {e}")
+        raise
+    finally:
+        db.log_run(
+            fetched=len(raw_items),
+            new=len(processed),
+            deduped=proc_stats["url_deduped"] + proc_stats["simhash_deduped"],
+            report_path=report_path,
+            error=error_msg,
+        )
 
     log.info(f"=== Done. Report: {report_path} ===")
     print(f"\n日报已生成：{report_path}\n")

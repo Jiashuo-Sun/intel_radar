@@ -25,9 +25,9 @@ class RawItem:
     published_at: Optional[str] = None
 
 
-def _fetch_url(url: str, timeout: int = 15, ua: str = "IntelRadar/1.0") -> str:
-    """GET 请求，返回文本内容"""
-    # 确保 URL 中的非 ASCII 字符被正确编码
+def _fetch_url(url: str, timeout: int = 15, ua: str = "IntelRadar/1.0",
+               retries: int = 2) -> str:
+    """GET request with exponential-backoff retry. Returns text content or empty string."""
     parsed = urllib.parse.urlparse(url)
     encoded = parsed._replace(
         path=urllib.parse.quote(parsed.path, safe="/:@!$&'()*+,;="),
@@ -35,13 +35,20 @@ def _fetch_url(url: str, timeout: int = 15, ua: str = "IntelRadar/1.0") -> str:
     )
     safe_url = urllib.parse.urlunparse(encoded)
     req = urllib.request.Request(safe_url, headers={"User-Agent": ua})
-    try:
-        with urllib.request.urlopen(req, timeout=timeout) as resp:
-            charset = resp.headers.get_content_charset() or "utf-8"
-            return resp.read().decode(charset, errors="replace")
-    except Exception as e:
-        log.warning(f"Fetch failed: {safe_url} — {e}")
-        return ""
+    delay = 2
+    for attempt in range(retries + 1):
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as resp:
+                charset = resp.headers.get_content_charset() or "utf-8"
+                return resp.read().decode(charset, errors="replace")
+        except Exception as e:
+            if attempt < retries:
+                log.warning(f"Fetch attempt {attempt + 1} failed: {safe_url} — {e}; retrying in {delay}s")
+                time.sleep(delay)
+                delay *= 2
+            else:
+                log.warning(f"Fetch failed after {retries + 1} attempts: {safe_url} — {e}")
+    return ""
 
 
 def _parse_rss_date(s: str) -> Optional[str]:

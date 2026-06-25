@@ -40,6 +40,19 @@ intel-radar/
 
 ---
 
+## 关键质量保证
+
+| 问题域 | 措施 |
+|--------|------|
+| 稳定性 | `_fetch_url()` retry=2 + 指数退避（2s/4s）|
+| 原子性 | reporter 写 `.tmp` → `os.replace()` 避免残缺文件 |
+| 错误记录 | `run_once()` try/finally 确保 `db.log_run()` 始终写入 |
+| 鲁棒性 | `_parse_ai_json()` fence 解析 + regex 兜底 |
+| 路径安全 | `Database.__init__` 先 `os.path.abspath()` |
+| 中文去重 | `_simhash()` 追加 CJK 字符级 tokenize |
+
+---
+
 ## 采集层（`src/fetcher.py`）
 
 ### 数据结构
