@@ -4,11 +4,17 @@
 
 ---
 
-## 语言规范 / Language Policy
+## 开发工作流规范 / Development Workflow
 
-**所有代码注释、commit message、文档更新、PR 描述，仅允许使用英文或简体中文，不得使用其他语言。**
+1. **语言规范**：所有代码注释、commit message、文档更新、PR 描述，仅允许使用英文或简体中文，不得使用其他语言。All code comments, commit messages, documentation updates, and PR descriptions must be written in **English or Simplified Chinese only**.
 
-All code comments, commit messages, documentation updates, and PR descriptions must be written in **English or Simplified Chinese only**. No other languages are permitted.
+2. **开发前 pull 最新代码**：每次开发前必须先执行 `git pull origin main`，确保在最新代码基础上开发，避免冲突。
+
+3. **知识沉淀**：每次完成开发或更新后，将关键决策、踩坑记录、设计变化总结到 `knowledge/` 目录，做到知识积累可传承。
+
+4. **开发前阅读知识库**：每次开发前需阅读 `knowledge/` 中的相关文档，了解当前设计方向和历史决策，保持项目整体方向的一致性和稳定性。
+
+5. **开发完成后 push 到 main**：所有完成的开发、修复、文档更新，必须 push 到 main 分支，确保远端始终是最新状态。
 
 ---
 

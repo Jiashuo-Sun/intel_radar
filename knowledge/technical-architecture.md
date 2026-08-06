@@ -1,5 +1,10 @@
 # Intel Radar — 技术架构文档
 
+> **模块级架构（乐高积木式）**：完整的模块依赖图、每个文件的输入/输出/
+> 限制说明，见 [`knowledge/lego-modules.md`](./lego-modules.md)。
+> 本文档聚焦整体数据流与配置，模块细节不再重复维护，避免两处文档
+> 内容漂移不一致。
+
 ## 系统架构
 
 ```
@@ -18,21 +23,33 @@
 └─────────────────────────────────────────────────────┘
 ```
 
+自 2026-08 重构后，采集层/处理层内部进一步拆分为多个高内聚低耦合的
+"乐高模块"，各自零依赖或近零依赖，通过 `models.py` 定义的公共数据
+结构（`RawItem` / `ProcessedItem`）交换信息。整体流程不变，仅内部
+实现细节按职责拆分为独立文件。
+
 ## 目录结构
 
 ```
 intel-radar/
 ├── CLAUDE.md                 ← 项目总设计文档
-├── run.py                    ← 入口
+├── run.py                    ← 入口 / pipeline 装配层
 ├── config/
 │   ├── watch.yaml            ← 监控对象配置
 │   └── settings.yaml         ← 运行参数
 ├── src/
-│   ├── fetcher.py            ← 采集层
-│   ├── processor.py          ← 处理层（去重 + 打分 + AI摘要）
-│   ├── reporter.py           ← 输出层（生成Markdown）
-│   └── database.py           ← SQLite封装
+│   ├── models.py             ← 公共数据结构（RawItem / ProcessedItem）
+│   ├── http_client.py        ← 通用 HTTP GET + 重试（零依赖）
+│   ├── simhash.py            ← SimHash 近似去重算法（零依赖）
+│   ├── feed_parser.py        ← RSS/Atom/arXiv/HTML 纯解析函数
+│   ├── scorer.py             ← 关键词打分引擎
+│   ├── ai_client.py          ← AI 摘要客户端（provider 可插拔）
+│   ├── fetcher.py            ← 采集编排层（组合 http_client+feed_parser）
+│   ├── database.py           ← SQLite 封装（依赖 simhash）
+│   ├── processor.py          ← 处理层编排（三阶段过滤 + AI摘要触发）
+│   └── reporter.py           ← 输出层（生成Markdown，原子写文件）
 ├── knowledge/                ← 设计与运维文档
+│   └── lego-modules.md       ← 每个模块的详细文档（功能/输入/输出/边界）
 ├── output/                   ← 每日日报（不提交到git）
 ├── data/                     ← SQLite数据库（不提交到git）
 └── logs/                     ← 运行日志（不提交到git）
@@ -40,9 +57,14 @@ intel-radar/
 
 ---
 
-## 采集层（`src/fetcher.py`）
+## 采集层（`src/fetcher.py` 编排，`src/http_client.py` + `src/feed_parser.py` 实现）
 
-### 数据结构
+`fetcher.py` 本身不再直接处理网络请求或 XML/HTML 解析——这两部分已
+下沉为独立的零依赖模块：`http_client.fetch_url()` 负责"下载文本"
+（含重试退避），`feed_parser.parse_xxx()` 负责"解析文本"（纯函数，
+可脱离网络单独测试）。每个采集器类只是这两个原子能力的组合方式。
+
+### 数据结构（`src/models.py`）
 
 ```python
 @dataclass
@@ -58,11 +80,11 @@ class RawItem:
 
 ### 采集器类型
 
-| 类 | 数据源 | 说明 |
-|----|--------|------|
-| `RssFetcher` | Google News RSS / 公司RSS | 最稳定，无需JS渲染 |
-| `ArxivFetcher` | arXiv API | 按关键词获取最新论文 |
-| `WebFetcher` | 公司官网新闻页 | requests + BeautifulSoup，需bs4 |
+| 类 | 数据源 | 组合方式 | 说明 |
+|----|--------|---------|------|
+| `RssFetcher` | Google News RSS / 公司RSS | http_client + feed_parser.parse_rss_atom | 最稳定，无需JS渲染 |
+| `ArxivFetcher` | arXiv API | http_client + feed_parser.parse_arxiv | 按关键词获取最新论文 |
+| `WebFetcher` | 公司官网新闻页 | http_client + feed_parser.parse_html_links | 需 bs4，未安装自动降级为空结果 |
 
 ### Google News RSS URL 构造
 
@@ -80,7 +102,7 @@ http://export.arxiv.org/api/query?search_query=all:{query}&sortBy=submittedDate&
 
 ---
 
-## 处理层（`src/processor.py`）
+## 处理层（`src/processor.py` 编排，`src/scorer.py` + `src/ai_client.py` + `src/database.py` 实现）
 
 ### 三阶段过滤流程
 
@@ -101,23 +123,30 @@ RawItem
 - 保存会导致下次运行时 URL 命中 "已见过"，产生误导性的大量 dedup 计数
 - score=0 意味着与业务无关，即便第二天被重新评分仍然是0，重新评分成本极低
 
-### 打分规则（SCORE_RULES）
+### 打分规则（SCORE_RULES，独立于 `src/scorer.py`）
 
-规则列表见 `src/processor.py`。关键权重：
+规则列表见 `src/scorer.py`。关键权重：
 - 融资/中标/并购：+3（最高权重）
 - 竞品公司名：+2 到 +3
 - 延峰：+3
 - 产品发布：+2
 - 行业关键词：+1
 
-### SimHash 去重
+打分逻辑与去重/AI摘要完全解耦，`calculate_score(item)` 是纯函数，
+可独立单元测试。
 
-使用字节级 SimHash（64位），Hamming 距离 ≤ 3 认为重复。
-只与 DB 中 `dedup_window_days`（默认7天）内的条目比较。
+### SimHash 去重（独立于 `src/simhash.py`）
 
-### AI 摘要
+使用字符级 SimHash（64位，中文按单字切分、英文按空格切分），
+Hamming 距离 ≤ 3 认为重复。只与 DB 中 `dedup_window_days`（默认7天）
+内的条目比较。算法本身与 SQLite 存储解耦，`simhash()` / `hamming_distance()`
+是零依赖纯函数。
 
-支持两个 provider，通过 `settings.yaml` 的 `ai.provider` 字段切换：
+### AI 摘要（独立于 `src/ai_client.py`）
+
+支持两个 provider，通过 `settings.yaml` 的 `ai.provider` 字段切换，
+provider 路由采用注册表模式（`PROVIDERS` 字典），新增 provider 无需
+改动调用方：
 
 | provider | 接口 | 认证 |
 |----------|------|------|
@@ -128,6 +157,10 @@ RawItem
 ```json
 {"summary": "≤25字核心内容", "impact": "威胁/机会/中性 + 影响说明", "action": "建议行动"}
 ```
+
+`ai_client.parse_ai_json()` 支持三级兜底解析：markdown 围栏剥离 →
+直接 json.loads → regex 提取 `{...}` 块，应对不同模型输出格式不稳定
+的情况。
 
 ---
 
