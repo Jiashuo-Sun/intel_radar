@@ -16,6 +16,12 @@
 - [x] `_parse_ai_json()` 增加 regex 兜底，处理 AI 输出 JSON 前有前置文本的情况
 - [x] `database.py` 路径安全：`os.path.abspath()` 避免空目录名报错
 - [x] `_simhash()` 中文字符级 tokenize，修复中文标题相似度检测退化问题
+- [x] **乐高模块化重构（2026-08）**：拆分为 models / http_client / simhash /
+      feed_parser / scorer / ai_client 等零依赖或近零依赖的独立模块，
+      fetcher / processor / reporter 收窄为编排层，详见
+      [`knowledge/lego-modules.md`](./lego-modules.md)
+- [x] **AI 提供商插件化**：`src/ai_client.py` 已改为 `PROVIDERS` 注册表模式，
+      新增 provider 只需写函数 + 注册一行（原 P2 项，已完成，从下方列表移除）
 
 ---
 
@@ -44,11 +50,7 @@
   - 前提：需自建或使用公共 RSSHub 实例
   - 配置：在 watch.yaml 中添加 type=rss，URL 为 RSSHub 生成的 feed
 
-- [ ] **AI 提供商插件化**：当前 if/elif 硬编码，新增 provider 需改核心代码
-  - 重构：定义 `AIProvider` 协议 + 注册表字典，`provider_name → call_fn`
-  - 收益：新增 OpenAI / Ollama / Gemini 等只需添加一个函数
-
-- [ ] **SCORE_RULES 可配置化**：当前硬编码在 `processor.py`
+- [ ] **SCORE_RULES 可配置化**：当前硬编码在 `src/scorer.py`（已从 processor.py 拆出独立模块，但仍是 Python 常量而非 YAML 配置）
   - 方案：迁移到 `config/settings.yaml` 或单独 `config/score_rules.yaml`
   - 注意：正则规则需在 YAML 中用引号包裹，加载后编译
 
